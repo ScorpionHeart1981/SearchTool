@@ -5,5 +5,5 @@ package com.example.xchen.searchtool;
  */
 
 public interface OnButtonClickListener {
-    public void OnButtonClickListener(String searchText);
+    public void OnButtonClickListener(String searchUrl, String title);
 }

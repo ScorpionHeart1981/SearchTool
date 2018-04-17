@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements OnButtonClickList
     private ContentFragment contentFragment = new ContentFragment();
     private AdminFragment adminFragment = new AdminFragment();
     private AccessoryFragment accessoryFragment = new AccessoryFragment();
-    private WebviewFragment webviewFragment = new WebviewFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,15 +70,13 @@ public class MainActivity extends AppCompatActivity implements OnButtonClickList
                     case 2:
                         /*addBadgeAt(2, 8);*/
                         return accessoryFragment;
-                    case 3:
-                        return webviewFragment;
                 }
                 return null;
             }
 
             @Override
             public int getCount() {
-                return 4;
+                return 3;
             }
         });
 
@@ -103,11 +100,8 @@ public class MainActivity extends AppCompatActivity implements OnButtonClickList
     }
 
     @Override
-    public void OnButtonClickListener(String searchText)
+    public void OnButtonClickListener(String searchUrl, String title)
     {
-        Bundle bundle = new Bundle();
-        bundle.putString("DATA", searchText);
-        webviewFragment.setArguments(bundle);
-        viewPager.setCurrentItem(3);
+        WebViewActivity.loadUrl(this, searchUrl, title);
     }
 }

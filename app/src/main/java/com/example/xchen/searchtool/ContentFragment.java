@@ -125,11 +125,15 @@ public class ContentFragment extends Fragment {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
                 btn.setLayoutParams(lp);
                 btn.setText(items[i]);
-                btn.setTag(items[i]);
+                BtnItemModel model = new BtnItemModel();
+                model.url = "http://www.baidu.com";
+                model.title = items[i];
+                btn.setTag(model);
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        myListener.OnButtonClickListener((String)v.getTag());
+                        BtnItemModel m = (BtnItemModel)v.getTag();
+                        myListener.OnButtonClickListener(m.url,m.title);
                     }
                 });
                 ll.addView(btn);
@@ -141,11 +145,15 @@ public class ContentFragment extends Fragment {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
                 btn.setLayoutParams(lp);
                 btn.setText(items[i]);
-                btn.setTag(items[i]);
+                BtnItemModel model = new BtnItemModel();
+                model.url = "http://www.163.com";
+                model.title = items[i];
+                btn.setTag(model);
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        myListener.OnButtonClickListener((String)v.getTag());
+                        BtnItemModel m = (BtnItemModel)v.getTag();
+                        myListener.OnButtonClickListener(m.url,m.title);
                     }
                 });
                 ll.addView(btn);

@@ -9,10 +9,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.xchen.searchtool.Controller.AccessoryFragment;
+import com.example.xchen.searchtool.Controller.AdminFragment;
+import com.example.xchen.searchtool.Controller.ContentFragment;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import butterknife.BindView;
@@ -66,10 +67,10 @@ public class MainActivity extends AppCompatActivity implements OnButtonClickList
                         return contentFragment;
                     case 1:
                         /*addBadgeAt(1, 3);*/
-                        return adminFragment;
+                        return accessoryFragment;
                     case 2:
                         /*addBadgeAt(2, 8);*/
-                        return accessoryFragment;
+                        return adminFragment;
                 }
                 return null;
             }

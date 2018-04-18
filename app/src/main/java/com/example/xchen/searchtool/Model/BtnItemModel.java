@@ -1,4 +1,4 @@
-package com.example.xchen.searchtool;
+package com.example.xchen.searchtool.Model;
 
 /**
  * Created by CX on 2018/4/14.

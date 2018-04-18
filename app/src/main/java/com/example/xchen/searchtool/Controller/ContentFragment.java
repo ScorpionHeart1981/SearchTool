@@ -1,28 +1,25 @@
-package com.example.xchen.searchtool;
+package com.example.xchen.searchtool.Controller;
 
 import android.app.Activity;
-import android.graphics.Point;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import com.example.xchen.searchtool.Model.BtnItemModel;
+import com.example.xchen.searchtool.OnButtonClickListener;
+import com.example.xchen.searchtool.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import android.view.ViewGroup.LayoutParams;
-
 /**
- * Created by XChen on 4/3/2018.
+ * Created by CX on 2018/4/18.
  */
 
 public class ContentFragment extends Fragment {
@@ -40,7 +37,8 @@ public class ContentFragment extends Fragment {
         }
     }
 
-    @BindView(R.id.catalogrow) LinearLayout catalogRow;
+    @BindView(R.id.catalogrow)
+    LinearLayout catalogRow;
     @BindView(R.id.subCatalog) LinearLayout subCatalog;
     private Unbinder unbinder;
 
@@ -64,39 +62,6 @@ public class ContentFragment extends Fragment {
             });
             catalogRow.addView(button);
         }
-
-
-
-        /*for(int i = 0; i < 7; i++)
-        {
-            LinearLayout ll = (LinearLayout) getLayoutInflater().inflate(R.layout.item_button_layout, null);
-            Button btn1 = (Button) getLayoutInflater().inflate(R.layout.item_button, null);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
-            btn1.setLayoutParams(lp);
-            btn1.setText("爱奇艺大世界算不到");
-            btn1.setTag("爱奇艺世界算不到");
-            btn1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    myListener.OnButtonClickListener((String)v.getTag());
-                }
-            });
-            ll.addView(btn1);
-            Button btn2 = (Button) getLayoutInflater().inflate(R.layout.item_button, null);
-            btn2.setLayoutParams(lp);
-            btn2.setText("优酷");
-            btn2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ViewPager viewPager = ((MainActivity)getActivity()).findViewById(R.id.viewPager);
-                    viewPager.setCurrentItem(3);
-                }
-            });
-            ll.addView(btn2);
-
-            subCatalog.addView(ll);
-        }*/
-
         return view;
     }
 
@@ -174,3 +139,4 @@ public class ContentFragment extends Fragment {
         return new String[]{};
     }
 }
+

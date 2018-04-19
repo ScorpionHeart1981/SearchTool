@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 
-public class MainActivity extends AppCompatActivity implements OnButtonClickListener {
+public class MainActivity extends AppCompatActivity implements OnItemButtonClickListener {
     @BindView(R.id.bnve) BottomNavigationViewEx bnve;
     @BindView(R.id.viewPager) ViewPager viewPager;
 

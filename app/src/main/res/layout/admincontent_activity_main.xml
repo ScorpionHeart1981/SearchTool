@@ -6,25 +6,14 @@
     android:layout_height="match_parent"
     tools:layout_editor_absoluteY="81dp">
 
-    <LinearLayout
+
+    <com.example.xchen.searchtool.NoScrollViewPager
+        android:id="@+id/admincontentviewpager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/btnAddContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="添加分类"
-            android:visibility="visible"
-            tools:layout_editor_absoluteX="156dp"
-            tools:layout_editor_absoluteY="45dp" />
-    </LinearLayout>
-
-
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

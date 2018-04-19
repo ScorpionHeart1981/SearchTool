@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.xchen.searchtool.Model.BtnItemModel;
-import com.example.xchen.searchtool.OnButtonClickListener;
+import com.example.xchen.searchtool.OnItemButtonClickListener;
 import com.example.xchen.searchtool.R;
 
 import butterknife.BindView;
@@ -23,14 +23,14 @@ import butterknife.Unbinder;
  */
 
 public class ContentFragment extends Fragment {
-    OnButtonClickListener myListener;
+    OnItemButtonClickListener myListener;
 
     @Override
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
         try{
-            myListener = (OnButtonClickListener)activity;
+            myListener = (OnItemButtonClickListener)activity;
         }
         catch(ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implementOnArticleSelectedListener");

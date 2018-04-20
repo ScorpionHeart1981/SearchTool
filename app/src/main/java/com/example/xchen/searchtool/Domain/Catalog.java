@@ -11,6 +11,7 @@ import io.realm.annotations.PrimaryKey;
 public class Catalog extends RealmObject {
     public String name;
     public Boolean deleted;
+    public int displayOrder;
 
     @PrimaryKey
     private String id;
@@ -19,7 +20,6 @@ public class Catalog extends RealmObject {
     {
         return name;
     }
-
     public void setName(String name)
     {
         this.name = name;
@@ -33,6 +33,9 @@ public class Catalog extends RealmObject {
     {
         this.deleted = deleted;
     }
+
+    public int getDisplayOrder(){ return displayOrder; }
+    public void setDisplayOrder(int displayOrder) { this.displayOrder = displayOrder; }
 
     public RealmList<Item> items;
 }

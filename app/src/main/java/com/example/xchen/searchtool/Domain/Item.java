@@ -11,6 +11,7 @@ public class Item extends RealmObject {
     public String title;
     public String url;
     public Boolean deleted;
+    public int displayOrder;
 
     @PrimaryKey
     public String id;
@@ -41,4 +42,7 @@ public class Item extends RealmObject {
     {
         this.deleted = deleted;
     }
+
+    public int getDisplayOrder(){ return displayOrder; }
+    public void setDisplayOrder(int displayOrder) { this.displayOrder = displayOrder; }
 }

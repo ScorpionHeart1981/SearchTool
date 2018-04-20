@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 
 import com.example.xchen.searchtool.Controller.CatalogManagerFragment;
 import com.example.xchen.searchtool.Controller.ItemManagerFragment;
+import com.example.xchen.searchtool.Component.NoScrollViewPager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
  * Created by CX on 2018/4/18.
  */
 
-public class AdminActivity extends AppCompatActivity implements OnItemButtonClickListener {
+public class AdminActivity extends AppCompatActivity implements OnCatalogItemClickListener {
     @BindView(R.id.admincontentviewpager) NoScrollViewPager admincontentviewpager;
 
     CatalogManagerFragment catalogManagerFragment = new CatalogManagerFragment();
@@ -65,8 +66,11 @@ public class AdminActivity extends AppCompatActivity implements OnItemButtonClic
     }
 
     @Override
-    public void OnButtonClickListener(String searchUrl, String title)
+    public void OnCatalogItemClickListener(String catalogName)
     {
+        Bundle bundle = new Bundle();
+        bundle.putString("catalogName", catalogName);
+        itemManagerFragment.setArguments(bundle);
         admincontentviewpager.setCurrentItem(1);
         /*WebViewActivity.loadUrl(this, searchUrl, title);*/
     }

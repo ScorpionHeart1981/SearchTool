@@ -7,7 +7,7 @@
     tools:layout_editor_absoluteY="81dp">
 
 
-    <com.example.xchen.searchtool.NoScrollViewPager
+    <com.example.xchen.searchtool.Component.NoScrollViewPager
         android:id="@+id/admincontentviewpager"
         android:layout_width="0dp"
         android:layout_height="0dp"

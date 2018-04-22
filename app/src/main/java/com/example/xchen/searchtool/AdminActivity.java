@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -23,7 +24,7 @@ public class AdminActivity extends AppCompatActivity implements OnCatalogItemCli
     @BindView(R.id.admincontentviewpager) NoScrollViewPager admincontentviewpager;
 
     CatalogManagerFragment catalogManagerFragment = new CatalogManagerFragment();
-    ItemManagerFragment itemManagerFragment = new ItemManagerFragment();
+    ItemManagerFragment itemManagerFragment  = new ItemManagerFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class AdminActivity extends AppCompatActivity implements OnCatalogItemCli
 
         ButterKnife.bind(this);
 
+        admincontentviewpager.setOffscreenPageLimit(0);
         admincontentviewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -43,6 +45,11 @@ public class AdminActivity extends AppCompatActivity implements OnCatalogItemCli
                         return itemManagerFragment;
                 }
                 return null;
+            }
+
+            @Override
+            public int getItemPosition(Object object){
+                return POSITION_NONE;
             }
 
             @Override
@@ -69,9 +76,8 @@ public class AdminActivity extends AppCompatActivity implements OnCatalogItemCli
     public void OnCatalogItemClickListener(String catalogName)
     {
         Bundle bundle = new Bundle();
-        bundle.putString("catalogName", catalogName);
+        bundle.putString("catalogName",catalogName);
         itemManagerFragment.setArguments(bundle);
         admincontentviewpager.setCurrentItem(1);
-        /*WebViewActivity.loadUrl(this, searchUrl, title);*/
     }
 }

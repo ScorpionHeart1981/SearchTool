@@ -2,6 +2,7 @@ package com.example.xchen.searchtool.Controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -9,25 +10,32 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xchen.searchtool.Domain.Catalog;
+import com.example.xchen.searchtool.MainActivity;
 import com.example.xchen.searchtool.OnCatalogItemClickListener;
 import com.example.xchen.searchtool.OnItemButtonClickListener;
 import com.example.xchen.searchtool.R;
 import com.example.xchen.searchtool.Service.PaginationAdapter;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,13 +91,28 @@ public class CatalogManagerFragment extends Fragment {
             public void onClick(View v) {
                 AlertDialog.Builder catalog_mangater_dialog = new AlertDialog.Builder(getContext());
                 final View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.catalog_manager_dialog, null);
-                catalog_mangater_dialog.setTitle("分类名称");
+                catalog_mangater_dialog.setTitle("管理分类");
                 catalog_mangater_dialog.setView(dialogView);
+                final TextView hideOrShow = (TextView)dialogView.findViewById(R.id.hideOrshow);
                 catalog_mangater_dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        EditText editText= (EditText)dialogView.findViewById(R.id.editTextCatalog);
-                        SaveCatalog(editText.getText().toString());
+                        EditText editTextCatalogName= (EditText)dialogView.findViewById(R.id.editTextCatalogName);
+                        EditText editTextCatalogDisplayOrder = (EditText)dialogView.findViewById(R.id.editTextCatalogDisplayOrder);
+                        SaveCatalog(editTextCatalogName.getText().toString(),
+                                editTextCatalogDisplayOrder.getText().toString(),
+                                hideOrShow.getText().toString());
+                    }
+                });
+
+                Switch delSwitch = (Switch)dialogView.findViewById(R.id.delswitch);
+                delSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked)
+                            hideOrShow.setText("True");
+                        else
+                            hideOrShow.setText("False");
                     }
                 });
                 catalog_mangater_dialog.show();
@@ -133,23 +156,101 @@ public class CatalogManagerFragment extends Fragment {
         catalogList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                return false;
+                TextView tvcatalogtitlename = (TextView)view.findViewById(R.id.txtcatalogmanageritemtitle);
+                TextView tvcatalogdiaplsyorder = (TextView)view.findViewById(R.id.txtcatalogmanageritemdisplayorder);
+                TextView tvcataloghideorshow = (TextView)view.findViewById(R.id.txtcatalogmanageritemisenable);
+
+                AlertDialog.Builder catalog_mangater_dialog = new AlertDialog.Builder(getContext());
+                final View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.catalog_manager_dialog, null);
+                catalog_mangater_dialog.setTitle("管理分类");
+                catalog_mangater_dialog.setView(dialogView);
+
+                final EditText editTextCatalogName= (EditText)dialogView.findViewById(R.id.editTextCatalogName);
+                editTextCatalogName.setText(tvcatalogtitlename.getText());
+                final TextView hideOrShow = (TextView)dialogView.findViewById(R.id.hideOrshow);
+                hideOrShow.setText(tvcataloghideorshow.getText() == "是" ? "True" : "False");
+                final Switch delSwitch = (Switch)dialogView.findViewById(R.id.delswitch);
+                delSwitch.setChecked(hideOrShow.getText().toString() == "True");
+                delSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked)
+                            hideOrShow.setText("True");
+                        else
+                            hideOrShow.setText("False");
+                    }
+                });
+
+                catalog_mangater_dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditText editTextCatalogName= (EditText)dialogView.findViewById(R.id.editTextCatalogName);
+                        EditText editTextCatalogDisplayOrder = (EditText)dialogView.findViewById(R.id.editTextCatalogDisplayOrder);
+
+                        SaveCatalog(editTextCatalogName.getText().toString(),
+                                editTextCatalogDisplayOrder.getText().toString(),
+                                hideOrShow.getText().toString());
+                    }
+                });
+                catalog_mangater_dialog.setNegativeButton("彻底删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditText editTextCatalogName= (EditText)dialogView.findViewById(R.id.editTextCatalogName);
+                        EditText editTextCatalogDisplayOrder = (EditText)dialogView.findViewById(R.id.editTextCatalogDisplayOrder);
+                        Switch delSwitch = (Switch)dialogView.findViewById(R.id.delswitch);
+                        SaveCatalog(editTextCatalogName.getText().toString(),
+                                editTextCatalogDisplayOrder.getText().toString(), hideOrShow.getText().toString());
+                    }
+                });
+                catalog_mangater_dialog.show();
+
+                return true;
             }
         });
+
+        /*registerForContextMenu(catalogList);*/
 
         return view;
     }
 
+    /*@Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu,v,menuInfo);
+
+        if(v==catalogList){
+            menu.setHeaderTitle("请选择：");
+            menu.add(0,0,0,"删除该类");
+            menu.add(0,1,0,"取消");
+        }
+    }*/
+
+    /*@Override
+    public boolean onContextItemSelected(MenuItem item){
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch(item.getItemId()){
+            case 0:
+                String tmp = "menuInfo.position:" + String.valueOf(menuInfo.position);
+                Toast.makeText(getContext(), tmp, Toast.LENGTH_LONG).show();
+                break;
+            case 1:
+                break;
+            default:
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }*/
+
     @Override
     public void onDestroyView(){
         super.onDestroyView();
+        /*unregisterForContextMenu(catalogList);*/
         unbinder.unbind();
     }
 
-    private void SaveCatalog(String catalogName)
+    private void SaveCatalog(String catalogName, String catalogDisplayOrder, String isEnabled)
     {
         Toast.makeText(getContext(),
-                catalogName,
+                catalogName + " "+ catalogDisplayOrder+ " " + isEnabled,
                 Toast.LENGTH_SHORT).show();
     }
 
@@ -187,4 +288,5 @@ public class CatalogManagerFragment extends Fragment {
             loadState=LOAD_STATE_IDLE;
         }
     }
+
 }

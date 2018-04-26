@@ -30,7 +30,9 @@
         <ListView
             android:id="@+id/catalogList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:divider="#FFCC00"
+            android:dividerHeight="4px"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

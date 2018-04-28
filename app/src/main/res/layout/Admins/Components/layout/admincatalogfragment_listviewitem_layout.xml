@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/adminContentListItem"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?android:attr/listDivider"
+    android:layout_height="wrap_content"
     tools:layout_editor_absoluteY="81dp">
 
 
@@ -21,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/lbladmincatalogfragmentlistviewitem1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -32,32 +31,33 @@
             android:id="@+id/txtcatalogmanageritemtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="分类名称"
+            android:layout_weight="4"
+            android:text=""
             android:textSize="24sp" />
 
         <TextView
             android:id="@+id/txtcatalogmanageritemindex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="invisible" />
+            android:layout_weight="0"
+            android:visibility="gone" />
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/listitembottomlinear"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listitemtoplinear">
 
         <TextView
-            android:id="@+id/textViewdisplayorder"
+            android:id="@+id/lbladmincatalogfragmentlistviewitem2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -68,15 +68,15 @@
             android:id="@+id/txtcatalogmanageritemdisplayorder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:gravity="center_vertical"
             android:text="" />
 
         <TextView
-            android:id="@+id/textViewisenable"
+            android:id="@+id/lbladmincatalogfragmentlistviewitem3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="是否显示:" />
 
@@ -84,7 +84,7 @@
             android:id="@+id/txtcatalogmanageritemisenable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:text="" />
 
     </android.support.v7.widget.LinearLayoutCompat>

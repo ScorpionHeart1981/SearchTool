@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-	buildToolsVersion "26.0.2"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.example.xchen.searchtool"
         minSdkVersion 16
@@ -10,12 +10,22 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary= true
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layout/Admins',
+                            'src/main/res/layout',
+                            'src/main/res'
+                            , 'src/main/res/layout/Admins/Fragments', 'src/main/res/layout/Admins/Components', 'src/main/res/layout/FrontEnds', 'src/main/res/layout/FrontEnds/Fragments', 'src/main/res/layout/FrontEnds/Components']
         }
     }
 }

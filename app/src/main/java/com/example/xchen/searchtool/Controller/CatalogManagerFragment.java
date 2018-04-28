@@ -2,17 +2,13 @@ package com.example.xchen.searchtool.Controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -21,36 +17,37 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xchen.searchtool.Domain.Catalog;
-import com.example.xchen.searchtool.MainActivity;
-import com.example.xchen.searchtool.OnCatalogItemClickListener;
-import com.example.xchen.searchtool.OnItemButtonClickListener;
+import com.example.xchen.searchtool.OnListItemClickListener;
 import com.example.xchen.searchtool.R;
-import com.example.xchen.searchtool.Service.PaginationAdapter;
+import com.example.xchen.searchtool.Component.PaginationAdapter;
+import com.example.xchen.searchtool.Service.CatalogService;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 
 /**
  * Created by XChen on 4/19/2018.
  */
 
 public class CatalogManagerFragment extends Fragment {
-    OnCatalogItemClickListener myListener;
+    private Realm realm;
+    /*private RealmChangeListener realmListener;*/
+
+    OnListItemClickListener myListener;
     /*OnAddCatalogBtnClickListener myListener;*/
 
     @Override
@@ -58,10 +55,10 @@ public class CatalogManagerFragment extends Fragment {
     {
         super.onAttach(activity);
         try{
-            myListener = (OnCatalogItemClickListener)activity;
+            myListener = (OnListItemClickListener)activity;
         }
         catch(ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnCatalogItemClickListener");
+            throw new ClassCastException(activity.toString() + " must implement OnListItemClickListener");
         }
     }
 
@@ -69,16 +66,17 @@ public class CatalogManagerFragment extends Fragment {
     @BindView(R.id.catalogList) ListView catalogList;
     private Unbinder unbinder;
 
-
     PaginationAdapter<Catalog> catalogAdapter;
     Handler handler = new Handler();
 
-    final int LOAD_STATE_IDLE=0;//没有在加载，并且服务器上还有数据没加载
-    final int LOAD_STATE_LOADING=1;//正在加载状态
-    final int LOAD_STATE_FINISH=2;//表示服务器上的全部数据都已加载完毕
+    final int LOAD_STATE_IDLE = 0;//没有在加载，并且服务器上还有数据没加载
+    final int LOAD_STATE_LOADING = 1;//正在加载状态
+    final int LOAD_STATE_FINISH = 2;//表示服务器上的全部数据都已加载完毕
     int loadState = LOAD_STATE_IDLE;//记录加载的状态
     int MAX_COUNT;
     int EACH_COUNT;
+
+    CatalogService catalogService;
 
     @Nullable
     @Override
@@ -86,41 +84,25 @@ public class CatalogManagerFragment extends Fragment {
         View view = inflater.inflate(R.layout.admincatalogfragment, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        realm = Realm.getDefaultInstance();
+        /*realmListener = new RealmChangeListener<RealmResults<Catalog>>() {
+            @Override
+            public void onChange(RealmResults<Catalog> catalogs) {
+                // ... do something with the updates (UI, etc.) ...
+            }};
+        realm.addChangeListener(realmListener);*/
+
+        catalogService = new CatalogService();
+
         btnAddCatalog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder catalog_mangater_dialog = new AlertDialog.Builder(getContext());
-                final View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.catalog_manager_dialog, null);
-                catalog_mangater_dialog.setTitle("管理分类");
-                catalog_mangater_dialog.setView(dialogView);
-                final TextView hideOrShow = (TextView)dialogView.findViewById(R.id.hideOrshow);
-                catalog_mangater_dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        EditText editTextCatalogName= (EditText)dialogView.findViewById(R.id.editTextCatalogName);
-                        EditText editTextCatalogDisplayOrder = (EditText)dialogView.findViewById(R.id.editTextCatalogDisplayOrder);
-                        SaveCatalog(editTextCatalogName.getText().toString(),
-                                editTextCatalogDisplayOrder.getText().toString(),
-                                hideOrShow.getText().toString());
-                    }
-                });
-
-                Switch delSwitch = (Switch)dialogView.findViewById(R.id.delswitch);
-                delSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked)
-                            hideOrShow.setText("True");
-                        else
-                            hideOrShow.setText("False");
-                    }
-                });
-                catalog_mangater_dialog.show();
+                LoadCatalogAdminDialog(true, "","",true,"");
             }
         });
 
-        MAX_COUNT = 100;
-        EACH_COUNT = 30;
+        MAX_COUNT = catalogService.GetAllCatalogSize(realm);
+        EACH_COUNT = 15;
 
         ArrayList<Catalog> catalogs = new ArrayList<>();
         catalogAdapter= new PaginationAdapter<>(catalogs);
@@ -148,61 +130,25 @@ public class CatalogManagerFragment extends Fragment {
         catalogList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tv = (TextView)view.findViewById(R.id.txtcatalogmanageritemtitle);
-                myListener.OnCatalogItemClickListener(tv.getText().toString());
+                TextView tv = (TextView)view.findViewById(R.id.txtcatalogmanageritemindex);
+                Bundle bundle = new Bundle();
+                bundle.putString("catalogId",tv.getText().toString());
+                myListener.OnItemClickListener(bundle);
             }
         });
 
         catalogList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tvcatalogtitlename = (TextView)view.findViewById(R.id.txtcatalogmanageritemtitle);
-                TextView tvcatalogdiaplsyorder = (TextView)view.findViewById(R.id.txtcatalogmanageritemdisplayorder);
-                TextView tvcataloghideorshow = (TextView)view.findViewById(R.id.txtcatalogmanageritemisenable);
+                TextView txtcatalogmanageritemtitle = (TextView)view.findViewById(R.id.txtcatalogmanageritemtitle);
+                TextView txtcatalogmanageritemdisplayorder = (TextView)view.findViewById(R.id.txtcatalogmanageritemdisplayorder);
+                TextView txtcatalogmanageritemisenable = (TextView)view.findViewById(R.id.txtcatalogmanageritemisenable);
+                TextView txtcatalogmanageritemindex = (TextView)view.findViewById(R.id.txtcatalogmanageritemindex);
 
-                AlertDialog.Builder catalog_mangater_dialog = new AlertDialog.Builder(getContext());
-                final View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.catalog_manager_dialog, null);
-                catalog_mangater_dialog.setTitle("管理分类");
-                catalog_mangater_dialog.setView(dialogView);
-
-                final EditText editTextCatalogName= (EditText)dialogView.findViewById(R.id.editTextCatalogName);
-                editTextCatalogName.setText(tvcatalogtitlename.getText());
-                final TextView hideOrShow = (TextView)dialogView.findViewById(R.id.hideOrshow);
-                hideOrShow.setText(tvcataloghideorshow.getText() == "是" ? "True" : "False");
-                final Switch delSwitch = (Switch)dialogView.findViewById(R.id.delswitch);
-                delSwitch.setChecked(hideOrShow.getText().toString() == "True");
-                delSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked)
-                            hideOrShow.setText("True");
-                        else
-                            hideOrShow.setText("False");
-                    }
-                });
-
-                catalog_mangater_dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        EditText editTextCatalogName= (EditText)dialogView.findViewById(R.id.editTextCatalogName);
-                        EditText editTextCatalogDisplayOrder = (EditText)dialogView.findViewById(R.id.editTextCatalogDisplayOrder);
-
-                        SaveCatalog(editTextCatalogName.getText().toString(),
-                                editTextCatalogDisplayOrder.getText().toString(),
-                                hideOrShow.getText().toString());
-                    }
-                });
-                catalog_mangater_dialog.setNegativeButton("彻底删除", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        EditText editTextCatalogName= (EditText)dialogView.findViewById(R.id.editTextCatalogName);
-                        EditText editTextCatalogDisplayOrder = (EditText)dialogView.findViewById(R.id.editTextCatalogDisplayOrder);
-                        Switch delSwitch = (Switch)dialogView.findViewById(R.id.delswitch);
-                        SaveCatalog(editTextCatalogName.getText().toString(),
-                                editTextCatalogDisplayOrder.getText().toString(), hideOrShow.getText().toString());
-                    }
-                });
-                catalog_mangater_dialog.show();
+                LoadCatalogAdminDialog(false, txtcatalogmanageritemtitle.getText().toString(),
+                        txtcatalogmanageritemdisplayorder.getText().toString(),
+                        txtcatalogmanageritemisenable.getText().toString()=="是",
+                        txtcatalogmanageritemindex.getText().toString());
 
                 return true;
             }
@@ -244,13 +190,34 @@ public class CatalogManagerFragment extends Fragment {
     public void onDestroyView(){
         super.onDestroyView();
         /*unregisterForContextMenu(catalogList);*/
+        /*realm.removeAllChangeListeners();*/
+        realm.close();
         unbinder.unbind();
     }
 
     private void SaveCatalog(String catalogName, String catalogDisplayOrder, String isEnabled)
     {
+        catalogService.CreateCatalog(realm, catalogName, Integer.parseInt(catalogDisplayOrder),isEnabled=="True");
+
+        refreshmain();
         Toast.makeText(getContext(),
                 catalogName + " "+ catalogDisplayOrder+ " " + isEnabled,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    public void UpdateCatalog(String catalogId, String catalogName, String catalogDisplayOrder, String isEnabled){
+        catalogService.UpdateCatalog(realm, catalogId, catalogName, Integer.parseInt(catalogDisplayOrder),isEnabled=="True");
+
+        refreshmain();
+    }
+
+    private void DeleteCatalog(String catalogId)
+    {
+        catalogService.DeleteCatalog(realm, catalogId);
+
+        refreshmain();
+        Toast.makeText(getContext(),
+                catalogId,
                 Toast.LENGTH_SHORT).show();
     }
 
@@ -267,26 +234,102 @@ public class CatalogManagerFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 }
             }
-        }, 3000);
+        }, 1000);
     }
 
     private void loadData()
     {
         int dataIndex;
         int count = catalogAdapter.getCount();
-        for(dataIndex = count; dataIndex < Math.min(count+EACH_COUNT, MAX_COUNT); dataIndex++) {
+        dataIndex = count + Math.min(count + EACH_COUNT, MAX_COUNT);
+        List<Catalog> list = catalogService.GetAllCatalog(realm, count, Math.min(count + EACH_COUNT, MAX_COUNT));
+        catalogAdapter.add(list);
+        /*for(dataIndex = count; dataIndex < Math.min(count+EACH_COUNT, MAX_COUNT); dataIndex++) {
             Catalog model = new Catalog();
             model.setName("分类" + dataIndex);
-            model.setDeleted(false);
+            model.setIsEnabled(false);
             catalogAdapter.add(model);
-        }
+        }*/
         //如果服务器上的全部数据都已加载完毕
-        if (dataIndex==MAX_COUNT) {
-            loadState=LOAD_STATE_FINISH;
+        if (dataIndex == MAX_COUNT) {
+            loadState = LOAD_STATE_FINISH;
         }
         else {
-            loadState=LOAD_STATE_IDLE;
+            loadState = LOAD_STATE_IDLE;
         }
     }
 
+    private void LoadCatalogAdminDialog(Boolean isNew, String name, String displayOrder, Boolean isEnable, final String itemIndex)
+    {
+        AlertDialog.Builder catalog_mangater_dialog = new AlertDialog.Builder(getContext());
+        final View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.admincatalogfragment_catalogedit_dialog_layout, null);
+        catalog_mangater_dialog.setTitle("管理分类");
+        catalog_mangater_dialog.setView(dialogView);
+
+        final EditText txtCatalogName= (EditText)dialogView.findViewById(R.id.txtCatalogName);
+        final EditText txtCatalogDisplayOrder = (EditText)dialogView.findViewById(R.id.txtCatalogDisplayOrder);
+        final Switch delSwitch = (Switch)dialogView.findViewById(R.id.switchCatalogEnable);
+        final TextView hideOrShow = (TextView)dialogView.findViewById(R.id.hideOrshow);
+
+        if(isNew)
+        {
+            catalog_mangater_dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SaveCatalog(txtCatalogName.getText().toString(),
+                            txtCatalogDisplayOrder.getText().toString(),
+                            hideOrShow.getText().toString());
+                }
+            });
+
+            delSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked)
+                        hideOrShow.setText("True");
+                    else
+                        hideOrShow.setText("False");
+                }
+            });
+        }
+        else
+        {
+            txtCatalogName.setText(name);
+            txtCatalogDisplayOrder.setText(displayOrder);
+            hideOrShow.setText(isEnable ? "True" : "False");
+            delSwitch.setChecked(isEnable);
+            delSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked)
+                        hideOrShow.setText("True");
+                    else
+                        hideOrShow.setText("False");
+                }
+            });
+
+            catalog_mangater_dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    UpdateCatalog(itemIndex, txtCatalogName.getText().toString(),
+                            txtCatalogDisplayOrder.getText().toString(),
+                            hideOrShow.getText().toString());
+                }
+            });
+            catalog_mangater_dialog.setNegativeButton("彻底删除", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    DeleteCatalog(itemIndex);
+                }
+            });
+        }
+        catalog_mangater_dialog.show();
+    }
+
+    public void refreshmain(){
+        List<Catalog> list = catalogService.GetAllCatalog(realm, 0, Math.min(0 + EACH_COUNT, catalogService.GetAllCatalogSize(realm)));
+        catalogAdapter.clear();
+        catalogAdapter.add(list);
+        catalogAdapter.notifyDataSetChanged();
+    }
 }

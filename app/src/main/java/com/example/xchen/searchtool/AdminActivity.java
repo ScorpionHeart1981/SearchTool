@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -20,11 +19,13 @@ import butterknife.ButterKnife;
  * Created by CX on 2018/4/18.
  */
 
-public class AdminActivity extends AppCompatActivity implements OnCatalogItemClickListener {
+public class AdminActivity extends AppCompatActivity implements OnListItemClickListener {
     @BindView(R.id.admincontentviewpager) NoScrollViewPager admincontentviewpager;
 
     CatalogManagerFragment catalogManagerFragment = new CatalogManagerFragment();
     ItemManagerFragment itemManagerFragment  = new ItemManagerFragment();
+
+    boolean needGoBack = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,12 @@ public class AdminActivity extends AppCompatActivity implements OnCatalogItemCli
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
+            if(needGoBack)
+                finish();
+            else {
+                needGoBack = true;
+                admincontentviewpager.setCurrentItem(0);
+            }
         }
         return false;
     }
@@ -73,11 +79,10 @@ public class AdminActivity extends AppCompatActivity implements OnCatalogItemCli
     }
 
     @Override
-    public void OnCatalogItemClickListener(String catalogName)
+    public void OnItemClickListener(Bundle bundle)
     {
-        Bundle bundle = new Bundle();
-        bundle.putString("catalogName",catalogName);
         itemManagerFragment.setArguments(bundle);
+        needGoBack = false;
         admincontentviewpager.setCurrentItem(1);
     }
 }

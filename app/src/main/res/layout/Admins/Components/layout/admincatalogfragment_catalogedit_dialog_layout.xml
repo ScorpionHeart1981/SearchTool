@@ -8,7 +8,7 @@
     tools:layout_editor_absoluteY="81dp">
 
     <android.support.v7.widget.LinearLayoutCompat
-        android:id="@+id/toplinear"
+        android:id="@+id/catalogeditdialogtoplinear"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -20,25 +20,25 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/lbladmincatalogfragmentcatalogeditdialoglayout1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="分类名称" />
+            android:text="分类名称:" />
 
         <EditText
-            android:id="@+id/editTextCatalogName"
+            android:id="@+id/txtCatalogName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="4"
             android:inputType="text"
             android:text="" />
     </android.support.v7.widget.LinearLayoutCompat>
 
 
     <android.support.v7.widget.LinearLayoutCompat
-        android:id="@+id/middlelinear"
+        android:id="@+id/catalogeditdialogmiddlelinear"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -47,26 +47,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toplinear">
+        app:layout_constraintTop_toBottomOf="@+id/catalogeditdialogtoplinear">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/lbladmincatalogfragmentcatalogeditdialoglayout2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="显示顺序" />
+            android:text="显示顺序:" />
 
         <EditText
-            android:id="@+id/editTextCatalogDisplayOrder"
+            android:id="@+id/txtCatalogDisplayOrder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:inputType="text" />
+            android:layout_weight="4"
+            android:inputType="text"
+            android:text="" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/txtCatalogId" />
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutCompat"
+        android:id="@+id/catalogeditdialogbottomlinear"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -75,27 +82,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/middlelinear">
+        app:layout_constraintTop_toBottomOf="@+id/catalogeditdialogmiddlelinear">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="是否显示" />
+            android:id="@+id/lbladmincatalogfragmentcatalogeditdialoglayout3"
+            android:text="是否显示:" />
 
-        <Switch
-            android:id="@+id/delswitch"
+        <EditText
+            android:id="@+id/txtplaceholder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textOff="关闭"
-            android:textOn="显示"/>
+            android:layout_weight="0"
+            android:inputType="text"
+            android:visibility="invisible"
+            />
 
-        <TextView android:visibility="invisible"
+        <Switch
+            android:id="@+id/switchCatalogEnable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"/>
+
+        <TextView android:visibility="gone"
             android:id="@+id/hideOrshow"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="False"/>
     </android.support.v7.widget.LinearLayoutCompat>
 
 

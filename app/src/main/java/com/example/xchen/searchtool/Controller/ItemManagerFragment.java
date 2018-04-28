@@ -8,18 +8,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.xchen.searchtool.Domain.Catalog;
+import com.example.xchen.searchtool.Domain.Item;
 import com.example.xchen.searchtool.R;
+import com.example.xchen.searchtool.Service.CatalogService;
+import com.example.xchen.searchtool.Service.ItemService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 
 /**
  * Created by XChen on 4/19/2018.
  */
 
 public class ItemManagerFragment extends Fragment {
-    @BindView(R.id.textView2) TextView textView2;
+    private Realm realm;
+    /*private RealmChangeListener realmListener;*/
+
+    @BindView(R.id.lbladminitemfragment1) TextView lbladminitemfragment1;
 
     //Fragment的View加载完毕的标记
     private boolean isViewCreated;
@@ -28,6 +38,9 @@ public class ItemManagerFragment extends Fragment {
     private boolean isUIVisible;
 
     private Unbinder unbinder;
+
+    CatalogService catalogService;
+    ItemService itemService;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -46,16 +59,17 @@ public class ItemManagerFragment extends Fragment {
         if (isViewCreated && isUIVisible) {
             loadData();
             //数据加载完毕,恢复标记,防止重复加载
-            isViewCreated = false;
-            isUIVisible = false;
+            /*isViewCreated = false;
+            isUIVisible = false;*/
         }
     }
 
     private void loadData()
     {
         Bundle args = getArguments();
-        String catalogName = args.getString("catalogName");
-        textView2.setText(catalogName);
+        String catalogId = args.getString("catalogId");
+        Catalog catalog = catalogService.QueryCatalogById(realm, catalogId);
+        lbladminitemfragment1.setText(catalog.getName());
     }
 
     @Override
@@ -70,12 +84,26 @@ public class ItemManagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.adminitemfragment, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        realm = Realm.getDefaultInstance();
+        /*realmListener = new RealmChangeListener<RealmResults<Item>>() {
+            @Override
+            public void onChange(RealmResults<Item> items) {
+                // ... do something with the updates (UI, etc.) ...
+            }};
+        realm.addChangeListener(realmListener);*/
+
+        catalogService = new CatalogService();
+        itemService = new ItemService();
+
         return view;
     }
 
     @Override
     public void onDestroyView(){
         super.onDestroyView();
+        /*realm.removeAllChangeListeners();*/
+        realm.close();
         unbinder.unbind();
     }
 }

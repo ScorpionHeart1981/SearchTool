@@ -10,8 +10,9 @@ import io.realm.annotations.PrimaryKey;
 public class Item extends RealmObject {
     public String title;
     public String url;
-    public Boolean deleted;
+    public Boolean isEnabled;
     public int displayOrder;
+    public String imageEngine;
 
     @PrimaryKey
     public String id;
@@ -34,15 +35,18 @@ public class Item extends RealmObject {
         this.url = url;
     }
 
-    public Boolean getDeleted()
+    public Boolean getIsEnabled()
     {
-        return deleted;
+        return isEnabled;
     }
-    public void setDeleted(Boolean deleted)
+    public void setIsEnabled(Boolean deleted)
     {
-        this.deleted = deleted;
+        this.isEnabled = deleted;
     }
 
     public int getDisplayOrder(){ return displayOrder; }
     public void setDisplayOrder(int displayOrder) { this.displayOrder = displayOrder; }
+
+    public String getImageEngine(){return imageEngine;}
+    public void setImageEngine(String imageEngine){this.imageEngine = imageEngine;}
 }

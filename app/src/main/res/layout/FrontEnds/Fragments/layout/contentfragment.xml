@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
 
         <LinearLayout
-            android:id="@+id/subCatalog"
+            android:id="@+id/itemrow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

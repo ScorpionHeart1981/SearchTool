@@ -28,7 +28,7 @@ public class AdminFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.adminfragment, container, false);
+        View view = inflater.inflate(R.layout.managementfragment, container, false);
         unbinder = ButterKnife.bind(this, view);
         InitButtons();
         return view;

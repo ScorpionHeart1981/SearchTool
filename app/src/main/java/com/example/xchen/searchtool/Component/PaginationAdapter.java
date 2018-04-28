@@ -1,6 +1,5 @@
-package com.example.xchen.searchtool.Service;
+package com.example.xchen.searchtool.Component;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +9,8 @@ import android.widget.TextView;
 import com.example.xchen.searchtool.Domain.Catalog;
 import com.example.xchen.searchtool.R;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by XChen on 4/20/2018.
@@ -51,17 +47,23 @@ public class PaginationAdapter<T> extends BaseAdapter {
         if(classname.contains("catalog")){
             CatalogViewHolder viewHolder;
             if (convertView == null) {
-                convertView =  LayoutInflater.from(parent.getContext()).inflate(R.layout.catalog_manager_item,
+                convertView =  LayoutInflater.from(parent.getContext()).inflate(R.layout.admincatalogfragment_listviewitem_layout,
                         null);
                 viewHolder = new CatalogViewHolder();
                 viewHolder.tv_catalogName = (TextView) convertView
                         .findViewById(R.id.txtcatalogmanageritemtitle);
+                viewHolder.tv_catalogDisplayOrder = (TextView) convertView.findViewById(R.id.txtcatalogmanageritemdisplayorder);
+                viewHolder.tv_catalogIndex = (TextView) convertView.findViewById(R.id.txtcatalogmanageritemindex);
+                viewHolder.tv_catalogIsEnabled = (TextView) convertView.findViewById(R.id.txtcatalogmanageritemisenable);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (CatalogViewHolder)convertView.getTag();
             }
             Catalog catalog = (Catalog)items.get(position);
             viewHolder.tv_catalogName.setText(catalog.getName());
+            viewHolder.tv_catalogDisplayOrder.setText(String.valueOf(catalog.getDisplayOrder()));
+            viewHolder.tv_catalogIndex.setText(catalog.getId());
+            viewHolder.tv_catalogIsEnabled.setText(catalog.getIsEnabled()? "是" : "否");
         }
 
         return convertView;
@@ -72,6 +74,18 @@ public class PaginationAdapter<T> extends BaseAdapter {
             items = new ArrayList<>();
         }
         items.add(model);
+    }
+
+    public void add(List<T> list){
+        if(items == null) {
+            items = new ArrayList<>();
+        }
+        items.addAll(list);
+    }
+
+    public void clear(){
+        if(items != null)
+            items.clear();
     }
 
     public interface onItemDeleteListener {
@@ -86,5 +100,8 @@ public class PaginationAdapter<T> extends BaseAdapter {
 
     class CatalogViewHolder{
         TextView tv_catalogName;
+        TextView tv_catalogDisplayOrder;
+        TextView tv_catalogIndex;
+        TextView tv_catalogIsEnabled;
     }
 }

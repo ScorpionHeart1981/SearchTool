@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
 
 public class Catalog extends RealmObject {
     public String name;
-    public Boolean deleted;
+    public Boolean isEnabled;
     public int displayOrder;
 
     @PrimaryKey
@@ -25,17 +25,19 @@ public class Catalog extends RealmObject {
         this.name = name;
     }
 
-    public Boolean getDeleted()
+    public Boolean getIsEnabled()
     {
-        return deleted;
+        return isEnabled;
     }
-    public void setDeleted(Boolean deleted)
+    public void setIsEnabled(Boolean deleted)
     {
-        this.deleted = deleted;
+        this.isEnabled = deleted;
     }
 
     public int getDisplayOrder(){ return displayOrder; }
     public void setDisplayOrder(int displayOrder) { this.displayOrder = displayOrder; }
+
+    public String getId() {return id;}
 
     public RealmList<Item> items;
 }

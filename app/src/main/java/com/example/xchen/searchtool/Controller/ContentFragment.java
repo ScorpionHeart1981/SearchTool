@@ -17,6 +17,7 @@ import com.example.xchen.searchtool.OnFrontEndContentFragmentItemButtonClickList
 import com.example.xchen.searchtool.R;
 import com.example.xchen.searchtool.Service.CatalogService;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class ContentFragment extends Fragment {
 
         catalogService = new CatalogService();
 
-        List<Catalog> catalogs = catalogService.FindEnabledCatalog(realm, 0, 100);
+        List<Catalog> catalogs = catalogService.FindEnabledCatalog(realm, 0, catalogService.GetEnabledCatalogSize(realm));
 
         for(Catalog catalog : catalogs){
             Button button = (Button) getLayoutInflater().inflate(R.layout.contentfragment_toplinecatalog_button_layout, null);
@@ -109,7 +110,7 @@ public class ContentFragment extends Fragment {
     private void LoadItemsByCatalogId(String catalogId)
     {
         itemrow.removeAllViews();
-        List<Item> items = catalogService.FindEnabledItemsByCatalog(realm, catalogId, 0, 100000);
+        List<Item> items = catalogService.FindEnabledItemsByCatalog(realm, catalogId, 0, catalogService.GetEnabledItemsSizeByCatalog(realm,catalogId));
 
         LinearLayout ll = null;
         for(int i = 0; i < items.size(); i++)
@@ -124,11 +125,20 @@ public class ContentFragment extends Fragment {
                 btn.setLayoutParams(lp);
                 btn.setText(item.getTitle());
                 BtnItemModel model = new BtnItemModel();
-                //String url = java.net.URLEncoder.encode(item.getUrl(),"UTF-8");
-                if(item.isImage){
-                    //model.url = "https://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=result&fr=&sf=1&fmq=1525250595640_R&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&word="+
+                String url = "";
+                try
+                {
+                    url = "https://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=result&fr=&sf=1&fmq=1525250595640_R&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&word="+ URLEncoder.encode(item.getUrl(),"UTF-8");
                 }
-                model.url = "http://www.baidu.com";
+                catch(UnsupportedEncodingException ec){
+                }
+
+                if(item.isImage){
+                    model.url = url;
+                }
+                else {
+                    model.url = item.getUrl();
+                }
                 model.title = item.getTitle();
                 btn.setTag(model);
                 btn.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +158,20 @@ public class ContentFragment extends Fragment {
                 btn.setLayoutParams(lp);
                 btn.setText(item.getTitle());
                 BtnItemModel model = new BtnItemModel();
-                model.url = "http://www.163.com";
+                String url = "";
+                try
+                {
+                    url = "https://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=result&fr=&sf=1&fmq=1525250595640_R&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&word="+ URLEncoder.encode(item.getUrl(),"UTF-8");
+                }
+                catch(UnsupportedEncodingException ec){
+                }
+
+                if(item.isImage){
+                    model.url = url;
+                }
+                else {
+                    model.url = item.getUrl();
+                }
                 model.title = item.getTitle();
                 btn.setTag(model);
                 btn.setOnClickListener(new View.OnClickListener() {

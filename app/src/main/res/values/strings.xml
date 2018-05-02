@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">搜索工具</string>
+    <string name="app_name">快捷方式</string>
     <string name="title_home">内容</string>
     <string name="title_dashboard">日常</string>
     <string name="title_notifications">管理</string>

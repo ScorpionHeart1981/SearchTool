@@ -2,11 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/adminCatalogListItem"
+    android:id="@+id/adminItemListItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:layout_editor_absoluteY="81dp">
-
 
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/listitemtoplinear"
@@ -20,15 +19,15 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/lbladmincatalogfragmentlistviewitem1"
+            android:id="@+id/lbladminitemfragmentlistviewitem1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="分类名称:" />
+            android:text="按钮名称:" />
 
         <TextView
-            android:id="@+id/txtcatalogmanageritemtitle"
+            android:id="@+id/txtitemmanageritemtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="4"
@@ -36,11 +35,41 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/txtcatalogmanageritemindex"
+            android:id="@+id/txtitemmanageritemindex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:visibility="gone" />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/listitemmiddlelinear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listitemtoplinear">
+
+        <TextView
+            android:id="@+id/lbladminitemfragmentlistviewitem2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="链接地址:" />
+
+        <TextView
+            android:id="@+id/txtitemmanageritemurl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text=""
+            android:textSize="24sp" />
+
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
@@ -54,10 +83,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listitemtoplinear">
+        app:layout_constraintTop_toBottomOf="@+id/listitemmiddlelinear">
 
         <TextView
-            android:id="@+id/lbladmincatalogfragmentlistviewitem2"
+            android:id="@+id/lbladminitemfragmentlistviewitem3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -65,7 +94,7 @@
             android:text="显示顺序:" />
 
         <TextView
-            android:id="@+id/txtcatalogmanageritemdisplayorder"
+            android:id="@+id/txtitemmanageritemdisplayorder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="3"
@@ -73,7 +102,22 @@
             android:text="" />
 
         <TextView
-            android:id="@+id/lbladmincatalogfragmentlistviewitem3"
+            android:id="@+id/lbladminitemfragmentlistviewitem4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="是否图片:" />
+
+        <TextView
+            android:id="@+id/txtitemmanageritemisiamge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/lbladminitemfragmentlistviewitem5"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -81,7 +125,7 @@
             android:text="是否显示:" />
 
         <TextView
-            android:id="@+id/txtcatalogmanageritemisenable"
+            android:id="@+id/txtcitemmanageritemisenabled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="3"

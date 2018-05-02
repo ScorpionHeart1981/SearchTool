@@ -12,10 +12,13 @@ public class Item extends RealmObject {
     public String url;
     public Boolean isEnabled;
     public int displayOrder;
+    public Boolean isImage;
     public String imageEngine;
 
     @PrimaryKey
     public String id;
+
+    public String getId(){return id;}
 
     public String getTitle()
     {
@@ -28,7 +31,7 @@ public class Item extends RealmObject {
 
     public String getUrl()
     {
-        return title;
+        return url;
     }
     public void setUrl(String url)
     {
@@ -49,4 +52,7 @@ public class Item extends RealmObject {
 
     public String getImageEngine(){return imageEngine;}
     public void setImageEngine(String imageEngine){this.imageEngine = imageEngine;}
+
+    public Boolean getIsImage(){return isImage;}
+    public void setIsImage(Boolean isImage){this.isImage = isImage;}
 }

@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.xchen.searchtool.Domain.Catalog;
+import com.example.xchen.searchtool.Domain.Item;
 import com.example.xchen.searchtool.R;
 
 import java.util.ArrayList;
@@ -65,6 +66,31 @@ public class PaginationAdapter<T> extends BaseAdapter {
             viewHolder.tv_catalogIndex.setText(catalog.getId());
             viewHolder.tv_catalogIsEnabled.setText(catalog.getIsEnabled()? "是" : "否");
         }
+        else if(classname.contains("item")){
+            ItemViewHolder viewHolder;
+            if (convertView == null) {
+                convertView =  LayoutInflater.from(parent.getContext()).inflate(R.layout.adminitemfragment_listviewitem_layout,
+                        null);
+                viewHolder = new ItemViewHolder();
+                viewHolder.tv_itemName = (TextView) convertView
+                        .findViewById(R.id.txtitemmanageritemtitle);
+                viewHolder.tv_itemDisplayOrder = (TextView) convertView.findViewById(R.id.txtitemmanageritemdisplayorder);
+                viewHolder.tv_itemIndex = (TextView) convertView.findViewById(R.id.txtitemmanageritemindex);
+                viewHolder.tv_itemUrl = (TextView) convertView.findViewById(R.id.txtitemmanageritemurl);
+                viewHolder.tv_itemIsImage = (TextView) convertView.findViewById(R.id.txtitemmanageritemisiamge);
+                viewHolder.tv_itemIsEnabled = (TextView) convertView.findViewById(R.id.txtcitemmanageritemisenabled);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ItemViewHolder)convertView.getTag();
+            }
+            Item item = (Item) items.get(position);
+            viewHolder.tv_itemName.setText(item.getTitle());
+            viewHolder.tv_itemUrl.setText(item.getUrl());
+            viewHolder.tv_itemIndex.setText(item.getId());
+            viewHolder.tv_itemDisplayOrder.setText(String.valueOf(item.getDisplayOrder()));
+            viewHolder.tv_itemIsImage.setText(item.getIsImage()? "是" : "否");
+            viewHolder.tv_itemIsEnabled.setText(item.getIsEnabled()? "是" : "否");
+        }
 
         return convertView;
     }
@@ -103,5 +129,14 @@ public class PaginationAdapter<T> extends BaseAdapter {
         TextView tv_catalogDisplayOrder;
         TextView tv_catalogIndex;
         TextView tv_catalogIsEnabled;
+    }
+
+    class ItemViewHolder{
+        TextView tv_itemName;
+        TextView tv_itemUrl;
+        TextView tv_itemIndex;
+        TextView tv_itemDisplayOrder;
+        TextView tv_itemIsImage;
+        TextView tv_itemIsEnabled;
     }
 }

@@ -8,12 +8,34 @@
     tools:layout_editor_absoluteY="81dp">
 
 
-    <TextView
-        android:id="@+id/lbladminitemfragment1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnAddItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="添加按钮"
+            android:visibility="visible"
+            tools:layout_editor_absoluteX="156dp"
+            tools:layout_editor_absoluteY="45dp" />
+
+        <ListView
+            android:id="@+id/itemList"
+            style="@style/Widget.AppCompat.ListView.Menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="?attr/colorPrimary"
+            android:dividerHeight="4px" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

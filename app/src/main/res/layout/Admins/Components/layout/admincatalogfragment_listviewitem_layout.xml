@@ -15,25 +15,51 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:paddingBottom="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/lbladmincatalogfragmentlistviewitem1"
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/txtcatalogmanageritemisenableimage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="分类名称:" />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/txtcatalogmanageritemtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="4"
+            android:cacheColorHint="#00000000"
             android:text=""
             android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/txtcatalogmanageritemdisplayorder"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:cacheColorHint="#00000000"
+            android:gravity="right|end"
+            android:paddingRight="7pt"
+            android:text=""
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="24sp" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_list_black_24dp" />
+
+        <TextView
+            android:id="@+id/txtcatalogmanageritemisenable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/txtcatalogmanageritemindex"
@@ -41,52 +67,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:visibility="gone" />
-    </android.support.v7.widget.LinearLayoutCompat>
-
-    <android.support.v7.widget.LinearLayoutCompat
-        android:id="@+id/listitembottomlinear"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listitemtoplinear">
-
-        <TextView
-            android:id="@+id/lbladmincatalogfragmentlistviewitem2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="显示顺序:" />
-
-        <TextView
-            android:id="@+id/txtcatalogmanageritemdisplayorder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:gravity="center_vertical"
-            android:text="" />
-
-        <TextView
-            android:id="@+id/lbladmincatalogfragmentlistviewitem3"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="是否显示:" />
-
-        <TextView
-            android:id="@+id/txtcatalogmanageritemisenable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="" />
-
     </android.support.v7.widget.LinearLayoutCompat>
 
 </android.support.constraint.ConstraintLayout>

@@ -128,7 +128,7 @@ public class ContentFragment extends Fragment {
                 String url = "";
                 try
                 {
-                    url = "https://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=result&fr=&sf=1&fmq=1525250595640_R&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&word="+ URLEncoder.encode(item.getUrl(),"UTF-8");
+                    url = "https://wap.baidu.com/sf/vsearch?pd=image_content&word="+ URLEncoder.encode(item.getUrl(),"UTF-8") + "&tn=vsearch&sa=vs_tab&lid=13787923295770061035&ms=1&atn=page&fr=tab";
                 }
                 catch(UnsupportedEncodingException ec){
                 }
@@ -161,7 +161,7 @@ public class ContentFragment extends Fragment {
                 String url = "";
                 try
                 {
-                    url = "https://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=result&fr=&sf=1&fmq=1525250595640_R&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&word="+ URLEncoder.encode(item.getUrl(),"UTF-8");
+                    url = "https://wap.baidu.com/sf/vsearch?pd=image_content&word="+ URLEncoder.encode(item.getUrl(),"UTF-8") + "&tn=vsearch&sa=vs_tab&lid=13787923295770061035&ms=1&atn=page&fr=tab";
                 }
                 catch(UnsupportedEncodingException ec){
                 }

@@ -1,9 +1,15 @@
 package com.example.xchen.searchtool.Component;
 
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xchen.searchtool.Domain.Catalog;
@@ -56,6 +62,7 @@ public class PaginationAdapter<T> extends BaseAdapter {
                 viewHolder.tv_catalogDisplayOrder = (TextView) convertView.findViewById(R.id.txtcatalogmanageritemdisplayorder);
                 viewHolder.tv_catalogIndex = (TextView) convertView.findViewById(R.id.txtcatalogmanageritemindex);
                 viewHolder.tv_catalogIsEnabled = (TextView) convertView.findViewById(R.id.txtcatalogmanageritemisenable);
+                viewHolder.tv_catalogIsEnabledImage = (ImageView) convertView.findViewById(R.id.txtcatalogmanageritemisenableimage);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (CatalogViewHolder)convertView.getTag();
@@ -65,6 +72,16 @@ public class PaginationAdapter<T> extends BaseAdapter {
             viewHolder.tv_catalogDisplayOrder.setText(String.valueOf(catalog.getDisplayOrder()));
             viewHolder.tv_catalogIndex.setText(catalog.getId());
             viewHolder.tv_catalogIsEnabled.setText(catalog.getIsEnabled()? "是" : "否");
+            if(catalog.getIsEnabled()) {
+                viewHolder.tv_catalogIsEnabledImage.setImageResource(R.drawable.ic_check_circle_black_24dp);
+                Drawable mydrawable = viewHolder.tv_catalogIsEnabledImage.getDrawable();
+                mydrawable.setTint(Color.GREEN);
+            }
+            else {
+                viewHolder.tv_catalogIsEnabledImage.setImageResource(R.drawable.ic_highlight_off_black_24dp);
+                Drawable mydrawable = viewHolder.tv_catalogIsEnabledImage.getDrawable();
+                mydrawable.setTint(Color.RED);
+            }
         }
         else if(classname.contains("item")){
             ItemViewHolder viewHolder;
@@ -129,6 +146,7 @@ public class PaginationAdapter<T> extends BaseAdapter {
         TextView tv_catalogDisplayOrder;
         TextView tv_catalogIndex;
         TextView tv_catalogIsEnabled;
+        ImageView tv_catalogIsEnabledImage;
     }
 
     class ItemViewHolder{

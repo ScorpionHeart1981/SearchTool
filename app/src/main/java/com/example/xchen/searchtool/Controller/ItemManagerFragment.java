@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.example.xchen.searchtool.OnListItemClickListener;
 import com.example.xchen.searchtool.R;
 import com.example.xchen.searchtool.Service.CatalogService;
 import com.example.xchen.searchtool.Service.ItemService;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +63,7 @@ public class ItemManagerFragment extends Fragment {
         }
     }
 
-    @BindView(R.id.btnAddItem)
-    Button btnAddItem;
+    @BindView(R.id.fabOnItem) FloatingActionButton fabOnItem;
     @BindView(R.id.itemList)
     ListView itemList;
     private Unbinder unbinder;
@@ -144,14 +145,21 @@ public class ItemManagerFragment extends Fragment {
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /*TextView tv = (TextView)view.findViewById(R.id.txtitemmanageritemindex);
-                Bundle bundle = new Bundle();
-                bundle.putString("itemId",tv.getText().toString());
-                myListener.OnItemClickListener(bundle);*/
+                TextView txtitemmanageritemtitle = (TextView)view.findViewById(R.id.txtitemmanageritemtitle);
+                TextView txtitemmanageritemdisplayorder = (TextView)view.findViewById(R.id.txtitemmanageritemdisplayorder);
+                TextView txtitemmanageritemurl = (TextView)view.findViewById(R.id.txtitemmanageritemurl);
+                TextView txtitemmanageritemisenable = (TextView)view.findViewById(R.id.txtcitemmanageritemisenabled);
+                TextView txtitemmanageritemisimage = (TextView)view.findViewById(R.id.txtitemmanageritemisiamge);
+                TextView txtitemmanageritemindex = (TextView)view.findViewById(R.id.txtitemmanageritemindex);
+
+                LoadItemAdminDialog(false, txtitemmanageritemtitle.getText().toString(),
+                        txtitemmanageritemurl.getText().toString(), txtitemmanageritemdisplayorder.getText().toString(),
+                        txtitemmanageritemisenable.getText().toString()=="是", txtitemmanageritemisimage.getText().toString()=="是",
+                        txtitemmanageritemindex.getText().toString());
             }
         });
 
-        itemList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*itemList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView txtitemmanageritemtitle = (TextView)view.findViewById(R.id.txtitemmanageritemtitle);
@@ -168,7 +176,7 @@ public class ItemManagerFragment extends Fragment {
 
                 return true;
             }
-        });
+        });*/
     }
 
     @Override
@@ -195,7 +203,7 @@ public class ItemManagerFragment extends Fragment {
         catalogService = new CatalogService();
         itemService = new ItemService();
 
-        btnAddItem.setOnClickListener(new View.OnClickListener() {
+        fabOnItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoadItemAdminDialog(true, "","","",true,true,"");
@@ -203,6 +211,8 @@ public class ItemManagerFragment extends Fragment {
         });
 
         EACH_COUNT = 15;
+
+        fabOnItem.attachToListView(itemList);
 
         return view;
     }
@@ -292,41 +302,53 @@ public class ItemManagerFragment extends Fragment {
         item_mangater_dialog.setView(dialogView);
 
         final EditText txtItemName= (EditText)dialogView.findViewById(R.id.txtItemName);
+        final LinearLayoutCompat llItemUrl = (LinearLayoutCompat)dialogView.findViewById(R.id.itemeditdialogsecondlinear);
         final EditText txtItemUrl = (EditText)dialogView.findViewById(R.id.txtItemUrl);
         final EditText txtItemDisplayOrder = (EditText)dialogView.findViewById(R.id.txtItemDisplayOrder);
         final Switch isImageSwitch = (Switch)dialogView.findViewById(R.id.switchItemImage);
+        final TextView lblForSwitchItemIsImage = (TextView)dialogView.findViewById(R.id.lblForSwitchItemIsImage);
         final TextView hideOrShowForIsImage = (TextView)dialogView.findViewById(R.id.hideOrshowForIsImage);
         final Switch delSwitch = (Switch)dialogView.findViewById(R.id.switchItemEnable);
+        final TextView lblForSwitchItemIsEnable = (TextView)dialogView.findViewById(R.id.lblForSwitchItemIsEnable);
         final TextView hideOrShowForIsEnabled = (TextView)dialogView.findViewById(R.id.hideOrshowForIsEnabled);
-
 
         if(isNew)
         {
-            item_mangater_dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    SaveItem(txtItemName.getText().toString(), txtItemUrl.getText().toString(), txtItemDisplayOrder.getText().toString(),
-                            hideOrShowForIsImage.getText().toString(), hideOrShowForIsEnabled.getText().toString());
-                }
-            });
-
             isImageSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked)
+                    if(isChecked) {
+                        lblForSwitchItemIsImage.setText("是图片");
                         hideOrShowForIsImage.setText("True");
-                    else
+                        llItemUrl.setVisibility(View.GONE);
+                    }
+                    else {
+                        lblForSwitchItemIsImage.setText("不是图片");
                         hideOrShowForIsImage.setText("False");
+                        llItemUrl.setVisibility(View.VISIBLE);
+                    }
                 }
             });
 
             delSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked)
+                    if(isChecked) {
+                        lblForSwitchItemIsEnable.setText("显示");
                         hideOrShowForIsEnabled.setText("True");
-                    else
+                    }
+                    else {
+                        lblForSwitchItemIsEnable.setText("不显示");
                         hideOrShowForIsEnabled.setText("False");
+                    }
+                }
+            });
+
+            item_mangater_dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SaveItem(txtItemName.getText().toString(), txtItemUrl.getText().toString(), txtItemDisplayOrder.getText().toString(),
+                            hideOrShowForIsImage.getText().toString(), hideOrShowForIsEnabled.getText().toString());
                 }
             });
         }
@@ -336,26 +358,39 @@ public class ItemManagerFragment extends Fragment {
             txtItemDisplayOrder.setText(displayOrder);
             txtItemUrl.setText(url);
             hideOrShowForIsEnabled.setText(isEnabled ? "True" : "False");
+            lblForSwitchItemIsEnable.setText(isEnabled ? "显示" : "不显示");
             delSwitch.setChecked(isEnabled);
             hideOrShowForIsImage.setText(isImage ? "True" : "False");
+            lblForSwitchItemIsImage.setText(isImage ? "是图片" : "不是图片");
+            llItemUrl.setVisibility(isImage ? View.GONE : View.VISIBLE);
             isImageSwitch.setChecked(isImage);
             isImageSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked)
+                    if(isChecked) {
+                        lblForSwitchItemIsImage.setText("是图片");
                         hideOrShowForIsImage.setText("True");
-                    else
+                        llItemUrl.setVisibility(View.GONE);
+                    }
+                    else {
+                        lblForSwitchItemIsImage.setText("不是图片");
                         hideOrShowForIsImage.setText("False");
+                        llItemUrl.setVisibility(View.VISIBLE);
+                    }
                 }
             });
 
             delSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked)
+                    if(isChecked) {
+                        lblForSwitchItemIsEnable.setText("显示");
                         hideOrShowForIsEnabled.setText("True");
-                    else
+                    }
+                    else {
+                        lblForSwitchItemIsEnable.setText("不显示");
                         hideOrShowForIsEnabled.setText("False");
+                    }
                 }
             });
 
@@ -367,6 +402,7 @@ public class ItemManagerFragment extends Fragment {
                             hideOrShowForIsEnabled.getText().toString());
                 }
             });
+
             item_mangater_dialog.setNegativeButton("彻底删除", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

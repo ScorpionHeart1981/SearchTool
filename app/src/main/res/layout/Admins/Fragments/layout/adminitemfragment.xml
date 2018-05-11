@@ -5,7 +5,8 @@
     android:id="@+id/adminItemFragmentTitle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="81dp"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
 
 
     <LinearLayout
@@ -21,21 +22,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <!--<Button
             android:id="@+id/btnAddItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="添加按钮"
             android:visibility="visible"
             tools:layout_editor_absoluteX="156dp"
-            tools:layout_editor_absoluteY="45dp" />
+            tools:layout_editor_absoluteY="45dp" />-->
 
         <ListView
             android:id="@+id/itemList"
             style="@style/Widget.AppCompat.ListView.Menu"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/fabOnItem"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:divider="?attr/colorPrimary"
-            android:dividerHeight="4px" />
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/fab_ic_add_white_24dp"
+            fab:fab_colorNormal="@color/accent"
+            fab:fab_colorPressed="@color/accent_pressed"
+            fab:fab_colorRipple="@color/ripple"/>
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

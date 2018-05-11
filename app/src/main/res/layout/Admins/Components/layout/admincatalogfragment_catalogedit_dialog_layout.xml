@@ -19,13 +19,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <!--<TextView
             android:id="@+id/lbladmincatalogfragmentcatalogeditdialoglayout1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="分类名称:" />
+            android:text="分类名称:" />-->
 
         <EditText
             android:id="@+id/txtCatalogName"
@@ -33,7 +33,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:inputType="text"
-            android:text="" />
+            android:text=""
+            android:hint="分类名称"
+            />
     </android.support.v7.widget.LinearLayoutCompat>
 
 
@@ -49,13 +51,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/catalogeditdialogtoplinear">
 
-        <TextView
+        <!--<TextView
             android:id="@+id/lbladmincatalogfragmentcatalogeditdialoglayout2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="显示顺序:" />
+            android:text="显示顺序:" />-->
 
         <EditText
             android:id="@+id/txtCatalogDisplayOrder"
@@ -63,7 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:inputType="text"
-            android:text="" />
+            android:text=""
+            android:hint="显示顺序"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -84,13 +87,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/catalogeditdialogmiddlelinear">
 
-        <TextView
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:id="@+id/lbladmincatalogfragmentcatalogeditdialoglayout3"
-            android:text="是否显示:" />
+            android:text="是否显示:" />-->
 
         <EditText
             android:id="@+id/txtplaceholder"
@@ -104,8 +107,13 @@
         <Switch
             android:id="@+id/switchCatalogEnable"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/lblForSwitchCatalogEnable"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"/>
+            android:text="不显示"/>
 
         <TextView android:visibility="gone"
             android:id="@+id/hideOrshow"

@@ -20,21 +20,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/lbladminitemfragmentitemeditdialoglayout1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="分类名称:" />
-
         <EditText
             android:id="@+id/txtItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:inputType="text"
-            android:text="" />
+            android:text=""
+            android:hint="按钮名称"/>
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
@@ -49,21 +42,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemeditdialogtoplinear">
 
-        <TextView
-            android:id="@+id/lbladminitemfragmentitemeditdialoglayout5"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="链接地址:" />
-
         <EditText
             android:id="@+id/txtItemUrl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:inputType="text"
-            android:text="" />
+            android:text=""
+            android:hint="链接地址"/>
 
     </android.support.v7.widget.LinearLayoutCompat>
 
@@ -79,21 +65,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemeditdialogsecondlinear">
 
-        <TextView
-            android:id="@+id/lbladminitemfragmentitemeditdialoglayout2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="显示顺序:" />
-
         <EditText
             android:id="@+id/txtItemDisplayOrder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:inputType="text"
-            android:text="" />
+            android:text=""
+            android:hint="显示顺序"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -114,14 +93,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemeditdialogmiddlelinear">
 
-        <TextView
-            android:id="@+id/lbladminitemfragmentitemeditdialoglayout3"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="是否图片:" />
-
         <EditText
             android:id="@+id/txtplaceholder1"
             android:layout_width="wrap_content"
@@ -134,8 +105,13 @@
         <Switch
             android:id="@+id/switchItemImage"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/lblForSwitchItemIsImage"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"/>
+            android:text="不是图片" />
 
         <TextView android:visibility="gone"
             android:id="@+id/hideOrshowForIsImage"
@@ -157,14 +133,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemeditdialogthirdlinear">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:id="@+id/lbladminitemfragmentitemeditdialoglayout4"
-            android:text="是否显示:" />
-
         <EditText
             android:id="@+id/txtplaceholder2"
             android:layout_width="wrap_content"
@@ -178,7 +146,13 @@
             android:id="@+id/switchItemEnable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"/>
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblForSwitchItemIsEnable"
+            android:text="不显示" />
 
         <TextView android:visibility="gone"
             android:id="@+id/hideOrshowForIsEnabled"
@@ -186,7 +160,5 @@
             android:layout_height="wrap_content"
             android:text="False"/>
     </android.support.v7.widget.LinearLayoutCompat>
-
-
 
 </android.support.constraint.ConstraintLayout>

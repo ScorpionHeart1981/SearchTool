@@ -15,6 +15,9 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.github.ybq.android.spinkit.style.DoubleBounce;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,7 +26,7 @@ import butterknife.ButterKnife;
  */
 
 public class WebViewActivity extends AppCompatActivity {
-    @BindView(R.id.progressBar) ProgressBar mProgressBar;
+    @BindView(R.id.spin_kit) SpinKitView spin_kit;
     @BindView(R.id.webView) WebView webView;
 
     private String mUrl;
@@ -36,14 +39,7 @@ public class WebViewActivity extends AppCompatActivity {
         getIntentData();
         setContentView(R.layout.webview_activity_main);
         ButterKnife.bind(this);
-        setTitle(mTitle);
         webView.loadUrl(mUrl);
-		webView.setWebChromeClient(new WebChromeClient(){
-			@Override
-			public void onProgressChanged(WebView view, int newProgress) {
-				mProgressBar.setProgress(newProgress);
-			}
-		});
         webView.setWebViewClient(new WebViewClient(){
             @SuppressWarnings("deprecation")
             @Override
@@ -53,8 +49,15 @@ public class WebViewActivity extends AppCompatActivity {
             }
             @Override
             public void onPageFinished(WebView view, String url){
-                mProgressBar.setVisibility(View.GONE);
+                spin_kit.setVisibility(View.GONE);
                 super.onPageFinished(view, url);
+            }
+        });
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                spin_kit.setProgress(newProgress);
+				/*mProgressBar.setProgress(newProgress);*/
             }
         });
 		initWebView();
@@ -67,7 +70,8 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     private void initWebView(){
-        mProgressBar.setVisibility(View.VISIBLE);
+        spin_kit.setVisibility(View.VISIBLE);
+
         WebSettings ws = webView.getSettings();
         // 网页内容的宽度是否可大于WebView控件的宽度
         ws.setLoadWithOverviewMode(false);

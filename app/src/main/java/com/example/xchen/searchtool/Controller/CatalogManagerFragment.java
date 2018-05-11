@@ -26,6 +26,7 @@ import com.example.xchen.searchtool.OnListItemClickListener;
 import com.example.xchen.searchtool.R;
 import com.example.xchen.searchtool.Component.PaginationAdapter;
 import com.example.xchen.searchtool.Service.CatalogService;
+import com.melnykov.fab.FloatingActionButton;
 
 import org.w3c.dom.Text;
 
@@ -62,8 +63,9 @@ public class CatalogManagerFragment extends Fragment {
         }
     }
 
-    @BindView(R.id.btnAddCatalog) Button btnAddCatalog;
+    /*@BindView(R.id.btnAddCatalog) Button btnAddCatalog;*/
     @BindView(R.id.catalogList) ListView catalogList;
+    @BindView(R.id.fabOnCatalog) FloatingActionButton fabOnCatalog;
     private Unbinder unbinder;
 
     PaginationAdapter<Catalog> catalogAdapter;
@@ -94,7 +96,7 @@ public class CatalogManagerFragment extends Fragment {
 
         catalogService = new CatalogService();
 
-        btnAddCatalog.setOnClickListener(new View.OnClickListener() {
+        fabOnCatalog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoadCatalogAdminDialog(true, "","",true,"");
@@ -153,6 +155,8 @@ public class CatalogManagerFragment extends Fragment {
                 return true;
             }
         });
+
+        fabOnCatalog.attachToListView(catalogList);
 
         /*registerForContextMenu(catalogList);*/
 
@@ -270,6 +274,7 @@ public class CatalogManagerFragment extends Fragment {
         final EditText txtCatalogDisplayOrder = (EditText)dialogView.findViewById(R.id.txtCatalogDisplayOrder);
         final Switch delSwitch = (Switch)dialogView.findViewById(R.id.switchCatalogEnable);
         final TextView hideOrShow = (TextView)dialogView.findViewById(R.id.hideOrshow);
+        final TextView lblForSwitchCatalogEnable = (TextView)dialogView.findViewById(R.id.lblForSwitchCatalogEnable);
 
         if(isNew)
         {
@@ -285,10 +290,14 @@ public class CatalogManagerFragment extends Fragment {
             delSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked)
+                    if(isChecked) {
                         hideOrShow.setText("True");
-                    else
+                        lblForSwitchCatalogEnable.setText("显示");
+                    }
+                    else {
                         hideOrShow.setText("False");
+                        lblForSwitchCatalogEnable.setText("不显示");
+                    }
                 }
             });
         }
@@ -297,14 +306,19 @@ public class CatalogManagerFragment extends Fragment {
             txtCatalogName.setText(name);
             txtCatalogDisplayOrder.setText(displayOrder);
             hideOrShow.setText(isEnable ? "True" : "False");
+            lblForSwitchCatalogEnable.setText(isEnable? "显示":"不显示");
             delSwitch.setChecked(isEnable);
             delSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked)
+                    if(isChecked) {
                         hideOrShow.setText("True");
-                    else
+                        lblForSwitchCatalogEnable.setText("显示");
+                    }
+                    else {
                         hideOrShow.setText("False");
+                        lblForSwitchCatalogEnable.setText("不显示");
+                    }
                 }
             });
 

@@ -51,5 +51,7 @@ dependencies {
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
 
     apply plugin: 'realm-android'
+
+    compile 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
 }
 

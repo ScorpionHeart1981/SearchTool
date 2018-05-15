@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/adminfragmentlinearLayoutTitle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout_editor_absoluteY="81dp">
+    android:orientation="vertical">
 
-    <ScrollView
+
+
+    <!--<ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent">-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,6 +27,44 @@
                 android:layout_height="wrap_content"
                 android:text="内容定制" />
 
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/expandable_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:el_duration="500"
+                app:el_expanded="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="编辑分类"
+                    />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="编辑按钮"
+                        />
+
+                </LinearLayout>
+
+                <!--<TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#009900"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:gravity="center"
+                    android:text="Fixed height"
+                    android:textColor="#fff" />-->
+            </net.cachapa.expandablelayout.ExpandableLayout>
+
             <Button
                 android:id="@+id/btnAdminAccessory"
                 android:layout_width="match_parent"
@@ -37,5 +75,89 @@
 
 
 
-    </ScrollView>
-</android.support.constraint.ConstraintLayout>
+    <!--</ScrollView>-->
+
+
+
+
+
+
+
+<!--    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/expand_button_0"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00b300"
+            android:elevation="6dp"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Tap to toggle expansion"
+            android:textColor="#fff" />
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable_layout_0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_duration="500"
+            app:el_expanded="false">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#009900"
+                android:clipToPadding="false"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:text="Fixed height"
+                android:textColor="#fff" />
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/expand_button_1"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00f"
+            android:elevation="6dp"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Tap to toggle expansion"
+            android:textColor="#fff" />
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable_layout_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_duration="500"
+            app:el_expanded="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#0000e6"
+                android:clipToPadding="false"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:text="Fixed height"
+                android:textColor="#fff"/>
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+    </LinearLayout>-->
+</LinearLayout>

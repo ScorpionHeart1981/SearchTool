@@ -11,6 +11,8 @@ import android.widget.Button;
 import com.example.xchen.searchtool.AdminActivity;
 import com.example.xchen.searchtool.R;
 
+import net.cachapa.expandablelayout.ExpandableLayout;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -22,6 +24,12 @@ import butterknife.Unbinder;
 public class AdminFragment extends Fragment {
     @BindView(R.id.btnAdminContent) Button btnAdminContent;
     @BindView(R.id.btnAdminAccessory) Button btnAdminAccessory;
+    @BindView(R.id.expandable_layout) ExpandableLayout expandableLayout;
+
+
+    /*private ExpandableLayout expandableLayout0;
+    private ExpandableLayout expandableLayout1;*/
+
 
     private Unbinder unbinder;
 
@@ -31,6 +39,46 @@ public class AdminFragment extends Fragment {
         View view = inflater.inflate(R.layout.managementfragment, container, false);
         unbinder = ButterKnife.bind(this, view);
         InitButtons();
+
+
+
+
+
+        /*expandableLayout0 = view.findViewById(R.id.expandable_layout_0);
+        expandableLayout1 = view.findViewById(R.id.expandable_layout_1);
+
+        expandableLayout0.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
+            @Override
+            public void onExpansionUpdate(float expansionFraction, int state) {
+
+            }
+        });
+
+        expandableLayout1.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
+            @Override
+            public void onExpansionUpdate(float expansionFraction, int state) {
+
+            }
+        });
+
+        view.findViewById(R.id.expand_button_0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandableLayout0.expand();
+                expandableLayout1.collapse();
+            }
+        });
+        view.findViewById(R.id.expand_button_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandableLayout0.collapse();
+                expandableLayout1.expand();
+            }
+        });*/
+
+
+
+
         return view;
     }
 
@@ -45,7 +93,11 @@ public class AdminFragment extends Fragment {
         btnAdminContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdminActivity.loadContentAdmin(getContext());
+                /*AdminActivity.loadContentAdmin(getContext());*/
+                if(expandableLayout.isExpanded())
+                    expandableLayout.collapse();
+                else
+                    expandableLayout.expand();
             }
         });
 
